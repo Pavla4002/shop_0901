@@ -21,7 +21,6 @@ class UserController extends Controller
         ])->validate();
         $valid['password']= md5($valid['password']);
         User::query()->create($valid);
-
-        return response()->json('Вы успешно зарегистрировались',200);
+        return response()->json('Вы успешно зарегистрировались');
     }
 }

@@ -10,7 +10,7 @@
                     <a class="nav-link active" aria-current="page" href="{{route('RegistrationPage')}}">Регистрация</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Авторизация</a>
+                    <a class="nav-link" href="{{route('login')}}">Авторизация</a>
                 </li>
             </ul>
         </div>

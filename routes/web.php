@@ -19,3 +19,5 @@ Route::get('/', function () {
 
 Route::get('/registration',[\App\Http\Controllers\GeneralPageController::class,'RegistrationPage'])->name('RegistrationPage');
 Route::post('/registration/save',[\App\Http\Controllers\UserController::class,'Registration'])->name('Registration');
+Route::get('/authorization',[\App\Http\Controllers\GeneralPageController::class,'authorization'])->name('login');
+Route::get('/login',[\App\Http\Controllers\GeneralPageController::class,'auth'])->name('auth');
