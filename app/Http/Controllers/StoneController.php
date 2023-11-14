@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stone;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StoneController extends Controller
 {
@@ -28,7 +30,17 @@ class StoneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(),[
+            'title'=>['required','unique:stones'],
+        ]);
+        if ($valid->fails()){
+            return response()->json($valid->errors(),400);
+        }
+
+        $stone = new Stone();
+        $stone->title=$request->title;
+        $stone->save();
+        return response()->json('Данные сохранены',200);
     }
 
     /**
@@ -36,7 +48,8 @@ class StoneController extends Controller
      */
     public function show(Stone $stone)
     {
-        //
+        $stones = Stone::all();
+        return response()->json($stones);
     }
 
     /**

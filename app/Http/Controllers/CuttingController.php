@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cutting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CuttingController extends Controller
 {
@@ -28,7 +29,17 @@ class CuttingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(),[
+            'title'=>['required','unique:cuttings'],
+        ]);
+        if ($valid->fails()){
+            return response()->json($valid->errors(),400);
+        }
+
+        $cutting = new Cutting();
+        $cutting->title=$request->title;
+        $cutting->save();
+        return response()->json('Данные сохранены',200);
     }
 
     /**
@@ -36,7 +47,8 @@ class CuttingController extends Controller
      */
     public function show(Cutting $cutting)
     {
-        //
+        $cuttings = Cutting::all();
+        return response()->json($cuttings);
     }
 
     /**

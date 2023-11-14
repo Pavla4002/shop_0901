@@ -29,6 +29,7 @@ class SizeController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -42,9 +43,13 @@ class SizeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Size $size)
+    public function edit(Request $request)
     {
-        //
+        $size = Size::query()->where('id',$request->id)->first();
+        $size->number = +$request->number;
+        $size->update();
+        $sizes = Size::query()->where('type_id',$request->type_id)->get();
+        return response()->json($sizes);
     }
 
     /**
@@ -58,8 +63,11 @@ class SizeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Size $size)
+    public function destroy(Size $size, Request $request)
     {
         //
+        $size = Size::query()->where('id',$request->id)->delete();
+        $sizes = Size::query()->where('type_id', $request->type)->get();
+        return response()->json($sizes);
     }
 }

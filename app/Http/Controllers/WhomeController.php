@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Whome;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class WhomeController extends Controller
 {
@@ -28,7 +29,17 @@ class WhomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(),[
+            'title'=>['required','unique:whomes'],
+        ]);
+        if ($valid->fails()){
+            return response()->json($valid->errors(),400);
+        }
+
+        $whom = new Whome();
+        $whom->title=$request->title;
+        $whom->save();
+        return response()->json('Данные сохранены',200);
     }
 
     /**
@@ -36,7 +47,8 @@ class WhomeController extends Controller
      */
     public function show(Whome $whome)
     {
-        //
+        $whomes = Whome::all();
+        return response()->json($whomes);
     }
 
     /**

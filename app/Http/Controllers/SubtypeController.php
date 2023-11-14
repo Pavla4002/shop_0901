@@ -42,9 +42,14 @@ class SubtypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Subtype $subtype)
+    public function edit(Request $request)
     {
-        //
+        $subtype = Subtype::query()->where('id',$request->id)->first();
+        $subtype->title = $request->title;
+        $subtype->update();
+        $subtypes = Subtype::query()->where('type_id',$request->type_id)->get();
+//        return response()->json('Данные сохранены',200);
+        return response()->json($subtypes);
     }
 
     /**
@@ -58,8 +63,10 @@ class SubtypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subtype $subtype)
+    public function destroy(Subtype $subtype, Request $request)
     {
-        //
+        $subtype = Subtype::query()->where('id',$request->id)->delete();
+        $subtypes = Subtype::query()->where('type_id',$request->type)->get();
+        return response()->json($subtypes);
     }
 }

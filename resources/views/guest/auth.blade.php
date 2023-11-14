@@ -3,15 +3,15 @@
     Авторизация
 @endsection
 @section('main')
-    <div class="container-fluid w-75" id="auth">
-        <div :class="message ? 'alert alert-success':''">
-            @{{ message }}
+    <div class="container-fluid w-75" id="Auth">
+        <div :class="no_user ? 'alert alert-success':''">
+            @{{ no_user }}
         </div>
-        <form id="form_auth" @submit.prevent="auth">
+        <form id="form_auth" @submit.prevent="Auth">
             <div class="mb-3">
-                <label for="email" class="form-label">Введите адрес электронной почты</label>
-                <input type="email" class="form-control" id="email" name="email" :class="errors.email ? 'is-invalid' : ''">
-                <div class="invalid-feedback" v-for="error in errors.email">
+                <label for="login" class="form-label">Введите адрес электронной почты</label>
+                <input type="text" class="form-control" id="login" name="login" :class="errors.login ? 'is-invalid' : ''">
+                <div class="invalid-feedback" v-for="error in errors.login">
                     @{{ error }}
                 </div>
             </div>
@@ -22,7 +22,7 @@
                     @{{ error }}
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Зарегаться</button>
+            <button type="submit" class="btn btn-primary">Авторизоваться</button>
         </form>
     </div>
     <script>
@@ -38,7 +38,7 @@
                     let form = document.getElementById('form_auth');
                     let data = new FormData(form);
 
-                    const response = await fetch('{{route('auth')}}',{
+                    const response = await fetch('{{route('Auth')}}',{
                         method:'post',
                         headers:{
                             'X-CSRF-TOKEN': '{{csrf_token()}}',
@@ -57,6 +57,6 @@
                 }
             }
         }
-        Vue.createApp(app).mount('#auth')
+        Vue.createApp(app).mount('#Auth')
     </script>
 @endsection

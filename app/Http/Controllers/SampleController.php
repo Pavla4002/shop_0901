@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sample;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SampleController extends Controller
 {
@@ -28,7 +29,17 @@ class SampleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(),[
+            'title'=>['required','unique:samples'],
+        ]);
+        if ($valid->fails()){
+            return response()->json($valid->errors(),400);
+        }
+
+        $sample = new Sample();
+        $sample->title=$request->title;
+        $sample->save();
+        return response()->json('Данные сохранены',200);
     }
 
     /**
@@ -36,7 +47,8 @@ class SampleController extends Controller
      */
     public function show(Sample $sample)
     {
-        //
+        $samples = Sample::all();
+        return response()->json($samples);
     }
 
     /**

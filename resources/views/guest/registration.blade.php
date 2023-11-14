@@ -74,7 +74,7 @@
                 async Registration(){
                     let form = document.getElementById('form_reg')
                     let form_data = new FormData(form)
-                    const response = await fetch('{{route('Registration')}}',{
+                    const response = await fetch('{{route('registration')}}',{
                         method:'post',
                         headers:{
                             'X-CSRF-TOKEN': '{{csrf_token()}}',

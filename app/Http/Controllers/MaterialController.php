@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MaterialController extends Controller
 {
@@ -28,7 +29,17 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(),[
+            'title'=>['required'],
+        ]);
+        if ($valid->fails()){
+            return response()->json($valid->errors(),400);
+        }
+
+        $material = new Material();
+        $material->title=$request->title;
+        $material->save();
+        return response()->json('Данные сохранены',200);
     }
 
     /**
@@ -36,7 +47,8 @@ class MaterialController extends Controller
      */
     public function show(Material $material)
     {
-        //
+        $material = Material::all();
+        return response()->json($material);
     }
 
     /**
