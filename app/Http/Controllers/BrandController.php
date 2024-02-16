@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
 {
@@ -28,7 +29,17 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $valid = Validator::make($request->all(),[
+            'title'=>['required','unique:brands'],
+        ]);
+        if ($valid->fails()){
+            return response()->json($valid->errors(),400);
+        }
+
+        $brand = new Brand();
+        $brand->title=$request->title;
+        $brand->save();
+        return response()->json('Данные сохранены',200);
     }
 
     /**
@@ -36,7 +47,8 @@ class BrandController extends Controller
      */
     public function show(Brand $brand)
     {
-        //
+        $brands = Brand::all();
+        return response()->json($brands);
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
@@ -28,15 +30,40 @@ class FavoriteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = Product::query()->where('id', $request->id_product)->with('product_filial_sizes.filial',
+        'product_filial_sizes.size',
+        'subtype',
+        'material',
+        'stone',
+        'whome',
+        'cutting',
+        'brand',
+        'sample',
+        'type',
+        'favorites'
+    )->first();
+        $favorites = Favorite::all();
+        $prod=[];
+        foreach ($favorites as $fav){
+            if($fav->product_id===$product->id && $fav->user_id === Auth::id()){
+                $prod=$product;
+            }
+        }
+        if($prod===[]){
+            $favorite = new Favorite();
+            $favorite->user_id = Auth::id();
+            $favorite->product_id = $product->id;
+            $favorite->save();
+        }
+        return response()->json($product);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Favorite $favorites)
+    public function show(Request $request)
     {
-        //
+
     }
 
     /**

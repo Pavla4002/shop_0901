@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cutting;
+use App\Models\Material;
+use App\Models\Sample;
 use App\Models\Size;
+use App\Models\Stone;
 use App\Models\Subtype;
 use App\Models\Type;
 
+use App\Models\Whome;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -88,16 +93,70 @@ class TypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Type $type)
+    public function update(Request $request)
     {
-        //
+        switch ($request->name_char){
+            case 'type':
+                $thing = Type::query()->where('id',$request->char_id)->first();
+                $thing->title = $request->title;
+                $thing->update();
+                break;
+            case 'stone':
+                $thing = Stone::query()->where('id',$request->char_id)->first();
+                $thing->title = $request->title;
+                $thing->update();
+                break;
+            case 'cuttings':
+                $thing = Cutting::query()->where('id',$request->char_id)->first();
+                $thing->title = $request->title;
+                $thing->update();
+                break;
+            case 'samples':
+                $thing = Sample::query()->where('id',$request->char_id)->first();
+                $thing->title = $request->title;
+                $thing->update();
+                break;
+            case 'whomes':
+                $thing = Whome::query()->where('id',$request->char_id)->first();
+                $thing->title = $request->title;
+                $thing->update();
+                break;
+            case 'materials':
+                $thing = Material::query()->where('id',$request->char_id)->first();
+                $thing->title = $request->title;
+                $thing->update();
+                break;
+        }
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Type $type)
+    public function destroy($id, $type)
     {
-        //
+
+        switch ($type){
+            case 'type':
+                $thing = Type::query()->where('id',$id)->delete();
+                break;
+            case 'stone':
+                $thing = Stone::query()->where('id',$id)->delete();
+                break;
+            case 'cuttings':
+                $thing = Cutting::query()->where('id',$id)->delete();
+                break;
+            case 'samples':
+                $thing = Sample::query()->where('id',$id)->delete();
+                break;
+            case 'whomes':
+                $thing = Whome::query()->where('id',$id)->delete();
+                break;
+            case 'materials':
+                $thing = Material::query()->where('id',$id)->delete();
+                break;
+        }
+        return redirect()->back();
     }
 }

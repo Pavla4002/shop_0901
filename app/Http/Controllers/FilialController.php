@@ -23,12 +23,24 @@ class FilialController extends Controller
         //
     }
 
+
+    public function get_filials(){
+        $filials = Filial::all();
+        return response()->json($filials);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $filial = new Filial();
+        $filial->title = $request->title;
+        $filial->address = $request->address;
+        $filial->save();
+        $filials = Filial::all();
+        return response()->json($filials);
     }
 
     /**
@@ -36,15 +48,21 @@ class FilialController extends Controller
      */
     public function show(Filial $filial)
     {
-        //
+        $filials = Filial::all();
+        return response()->json($filials);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Filial $filial)
+    public function edit(Request $request)
     {
-        //
+        $filial= Filial::query()->where('id',$request->id)->first();
+        $filial->title = $request->title;
+        $filial->address = $request->address;
+        $filial->update();
+        $filials = Filial::all();
+        return response()->json($filials);
     }
 
     /**
@@ -58,8 +76,10 @@ class FilialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Filial $filial)
+    public function destroy($id)
     {
-        //
+           $filial =  Filial::query()->where('id',$id)->first();
+           $filial->delete();
+           return redirect()->back();
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Order::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->float('price')->default(0);
             $table->integer('count')->default(0);
+            $table->foreignIdFor(\App\Models\Size::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Filial::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

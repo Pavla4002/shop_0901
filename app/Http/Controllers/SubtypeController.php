@@ -18,9 +18,14 @@ class SubtypeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $subtype = new Subtype();
+        $subtype->title = $request->name;
+        $subtype->type_id = $request->id;
+        $subtype->save();
+        $subtypes = Subtype::query()->where('type_id',$request->id)->get();
+        return response()->json($subtypes);
     }
 
     /**
@@ -36,7 +41,8 @@ class SubtypeController extends Controller
      */
     public function show(Subtype $subtype)
     {
-        //
+        $subtypes = Subtype::all();
+        return response()->json($subtypes);
     }
 
     /**
